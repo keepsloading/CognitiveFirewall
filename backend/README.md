@@ -11,7 +11,9 @@ This Flask backend is optional. The extension runs local-first scoring without i
 ## Privacy and storage
 
 - Host binds to `127.0.0.1` only
-- Analysis history/training data are local files under `storage/`
+- Analysis history cache is local under `storage/`.
+- Training/history export is opt-in only.
+- Do not store page text unless explicitly requested.
 - If you do not want history, do not run backend endpoints that write it (or disable writes in code)
 
 ## Run
