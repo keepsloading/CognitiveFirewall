@@ -23,9 +23,9 @@ Boundier began as a Gen AI TechGyan hackathon project at IIT Bombay, built in un
 - It does **not** infer or prove author intent.
 - It does **not** replace source verification, media literacy, or editorial judgment.
 
-## What Rustmeter™ measures
+## What Rustmeter measures
 
-Rustmeter™ measures propaganda-like influence patterns in text, including:
+Rustmeter measures propaganda-like influence patterns in text, including:
 
 - Attention Capture
 - Clickbait
@@ -68,6 +68,7 @@ Rustmeter™ measures propaganda-like influence patterns in text, including:
 
 ## Known limitations
 
+- Boundier currently uses deterministic local rules. Scores are heuristic and should be treated as analysis signals, not verdicts.
 - Rule-based scoring can miss subtle or context-dependent rhetoric.
 - Scores may vary by page text extraction quality.
 - Short snippets can create higher uncertainty.
