@@ -16,6 +16,10 @@ function setBadge(text, color, tabId) {
   if (!tabId) return;
   chrome.tabs.get(tabId, (tab) => {
     if (chrome.runtime.lastError || !tab) return;
+    if (!Number.isFinite(Number(text))) {
+      chrome.action.setBadgeText({ text: '', tabId });
+      return;
+    }
     chrome.action.setBadgeBackgroundColor({ color, tabId });
     chrome.action.setBadgeText({ text: String(text), tabId });
   });
@@ -45,6 +49,7 @@ async function processQueue() {
   const content = normalizeIncomingMessage(msg);
 
   if (!content.hash || (!content.headline && !content.snippet)) {
+    setBadge('', '#9ca3af', tabId);
     sendResponse({ error: 'Missing required fields: hash and text', request_id: requestId });
     isProcessing = false; processQueue(); return;
   }
