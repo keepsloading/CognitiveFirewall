@@ -1,36 +1,41 @@
-# Nudgement 🔍
+# Nudgement 🔍 <img src="nudgement-extension/icons/128.png" align="right" width="48" height="48">
 
-A Chrome extension that shows how your online content is gradually nudging your attention and worldview over time.
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-green?style=for-the-badge)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-yellow?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-Originally built as **Boundier** at an IIT Bombay hackathon. Renamed and extended into Nudgement.
-
----
-
-## What it does
-
-Nudgement analyses the text of any webpage you visit and shows you:
-
-- **Nudgemeter** — which of 8 topic dimensions (Outrage, Politics, Health, Finance, Consumerism, AI & Tech, Productivity, Entertainment) are present in the current page, and to what degree
-- **7-day diet** — how your content consumption has been distributed across these dimensions over the past week
-- **Nudge signals** — the specific phrases that triggered the analysis, with plain-language explanations
-
-The emphasis is on awareness, not judgment. Rather than telling you content is "bad" or "manipulative", Nudgement shows you patterns across what you actually read.
+**Nudgement** is a Chrome extension that shows you how your online content is gradually nudging your attention and worldview over time. It tracks what kinds of content you consume across 8 topic dimensions and builds a personal exposure profile from your browsing.
 
 ---
 
-## How it works
+## 🧠 Why Nudgement?
 
-1. **Extraction** — `extractor.js` identifies the main readable text on any page using 4 fallback strategies: targeted DOM selectors, Mozilla Readability, adaptive ranked candidates, and a clean body fallback. Surface type is detected automatically (article, video, social, generic page).
-
-2. **Scoring** — `scorer.js` runs 14 tactic signal patterns (clickbait, fear appeal, outrage, false urgency, etc.) against the extracted text. These signals are then mapped to 8 topic dimensions using topic keyword detection. A page with fear-appeal signals *and* health keywords scores high on the Health dimension; the same signals on a finance article score high on Finance.
-
-3. **History** — each analysis is stored locally in `chrome.storage.local`. The popup reads the past 7 days of history to build your weekly exposure profile. Nothing leaves your browser.
-
-4. **Badge** — the extension badge shows the Nudgemeter score (0–100) for the current page, colour-coded green / amber / red.
+Every page you visit is shaped by someone's intent: to provoke, to sell, to alarm, or to entertain. Over time, a steady diet of one kind of content quietly shifts what feels normal, urgent, or true. Nudgement makes that drift visible. Not to judge what you read, but to show you the shape of it.
 
 ---
 
-## Nudgemeter dimensions
+## 🌟 Key Features
+
+* 📊 **Nudgemeter:** Scores the current page across 8 topic dimensions (Outrage, Politics, Health, Finance, Consumerism, AI & Tech, Productivity, Entertainment) and shows you which ones dominate.
+* 🗓️ **7-Day Diet:** Tracks your content history locally and surfaces how your exposure has been distributed over the past week.
+* 🔍 **Nudge Signals:** Highlights the specific phrases that triggered the analysis with plain-language explanations of what they do.
+* 🔒 **Local and Private:** All analysis happens on your device using pattern matching. Nothing leaves your browser.
+
+---
+
+## 🛠️ How It Works
+
+1. **Extraction:** `extractor.js` pulls the main readable text from any page using four fallback strategies: targeted DOM selectors, Mozilla Readability, adaptive ranked candidates, and a clean body fallback. Surface type is detected automatically (article, video, social, page).
+
+2. **Scoring:** `scorer.js` runs 14 tactic signal patterns (clickbait, fear appeal, outrage, false urgency, etc.) against the extracted text. Those signals are then mapped to 8 topic dimensions using keyword detection. A page with fear-appeal signals and health keywords scores high on Health. The same signals on a finance article score high on Finance.
+
+3. **History:** Every analysis result is appended to a local store in `chrome.storage.local`. The popup reads the past 7 days to build your weekly exposure profile. Capped at 500 entries, oldest removed first.
+
+4. **Badge:** The extension badge shows the Nudgemeter score (0-100) for the current page, colour-coded green / amber / red.
+
+---
+
+## 📐 Nudgemeter Dimensions
 
 | Dimension | What it reflects |
 |---|---|
@@ -45,29 +50,29 @@ The emphasis is on awareness, not judgment. Rather than telling you content is "
 
 ---
 
-## Installation
+## ⚡ Installation
 
-1. Clone or download this repository
-2. Open `chrome://extensions/` in Chrome
-3. Enable **Developer mode** (top right)
-4. Click **Load unpacked** and select the `nudgement-extension/` folder
-5. Visit any webpage and click the extension icon
+1. **Clone or download** this repository
+2. **Open Extensions:** Navigate to `chrome://extensions/` in Chrome
+3. **Enable Developer Mode:** Toggle the switch in the top-right corner
+4. **Load Unpacked:** Click **Load unpacked** and select the `nudgement-extension/` folder
+5. **Start Browsing:** Visit any webpage and click the extension icon
 
 ---
 
-## Running tests
+## 🧪 Running Tests
 
 ```bash
 npm test
 ```
 
-Tests cover both the `nudgemeter_score` range and `nudge_profile` dimension outputs for 15 content scenarios.
+Tests cover `nudgemeter_score` ranges and `nudge_profile` dimension outputs across 15 content scenarios including neutral articles, political outrage, health fear appeals, finance urgency, AI hype, and entertainment clickbait.
 
 ---
 
-## Optional backend
+## 🖥️ Optional Backend
 
-A minimal Flask backend is included in `backend/` for local experimentation. It mirrors the JS scoring logic and adds optional history storage.
+A minimal Flask backend is included in `backend/` for local experimentation. It mirrors the JS scoring logic and supports opt-in history storage.
 
 ```bash
 cd backend
@@ -75,13 +80,14 @@ pip install -r requirements.txt
 python app.py
 ```
 
-The backend is not required — the extension runs fully offline.
+The backend is completely optional. The extension runs fully offline without it.
 
-**Note on ML:** `torch` and `transformers` have been removed from requirements. The current scorer is regex-based. Future ML improvements are better done with WASM-based models (ONNX Runtime Web, TensorFlow.js) that run inside the extension itself without needing a backend.
+> [!NOTE]
+> `torch` and `transformers` have been removed from the backend requirements. They were listed as future dependencies in the original hackathon build but were never used. The current scorer is regex-based. Future ML improvements should use WASM-based models (ONNX Runtime Web, TensorFlow.js) that run inside the browser extension itself, keeping it local-first with no heavy installs.
 
 ---
 
-## Project structure
+## 📁 Project Structure
 
 ```
 nudgement-extension/     ← load this as an unpacked extension
@@ -105,14 +111,11 @@ tests/
 
 ---
 
-## Original hackathon project
+## 🤝 Contributing
 
-Built as **Boundier** at IIT Bombay. The name moved to a separate project (an autonomous Discord bot). This project continues as Nudgement.
-
-The core extraction pipeline (`extractor.js`) and scoring architecture (`scorer.js`) are preserved from the hackathon build. The popup UI, dimension system, history persistence, and background handlers are new.
+Issues and PRs are welcome. The scoring patterns in `scorer.js` are the easiest entry point: both the 14 tactic signal patterns and the topic keyword lists for each dimension can be improved without touching anything else in the codebase. Keep `backend/app.py` in sync with `scorer.js` when changing signal weights or adding new patterns.
 
 ---
 
-## Contributing
-
-Issues and PRs welcome. The scoring patterns in `scorer.js` are the easiest place to start — both the tactic signals (14 regex patterns) and the topic keyword lists for each dimension can be improved without touching any other part of the codebase. Keep `backend/app.py` in sync with `scorer.js` when changing signal weights.
+> [!NOTE]
+> **A note on the name:** This project was originally built as **Boundier** at an IIT Bombay hackathon. That name moved to a separate project (an autonomous Discord bot). This project was then briefly renamed **Cognitive Firewall** as a placeholder. It is now **Nudgement**, which better reflects what it actually does.
